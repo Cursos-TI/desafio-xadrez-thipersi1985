@@ -1,49 +1,64 @@
 #include <stdio.h>
 
-int main (){
+void recursivoTorre (int t) {   //função recursiva criada fora da função principal; toda vez que for "chamada" na função principal, executará o código dentro dela.  
+    if (t > 0) {                //Esse código simulará o movimento da torre 5 vezes para a direita
+        printf("Direita\n");
+        recursivoTorre (t - 1);
+    }
+}
 
-    int a;      //variável de controle que será utilizada para o movimento da torre
-    int b;      //variável de controle que será utilizada para o movimento do bispo
-    int c;      //variável de controle que será utilizada para o movimento da rainha
-    int i, j;   //variáveis de controle que serão utilizadas para o movimento do cavalo
-      
-        // esse bloco irá implementar o movimento da torre, utilizando o "for" para simular o movimento da torre cinco vezes para direita.
-        printf("*** TORRE ***\n");
-        for (a = 1; a <= 5; a++) {  
-            printf("Direita\n");
-        }
-        
-        // esse bloco irá implementar o movimento do bispo, utilizando o "do - while" para simular o movimento do bispo cinco vezes para cima e para direita simultaneamente.
-        printf("*** BISPO ***\n");
-        b = 1;
-        do {
-            printf("Cima, Direita\n");
-            b++;
-        } while (b <= 5);    
+void recursivoRainha (int r) {  //função recursiva criada fora da função principal; toda vez que for "chamada" na função principal, executará o código dentro dela.  
+    if (r > 0) {                //Esse código simulará o movimento da rainha 8 vezes para a esquerda
+        printf("Esquerda\n");
+        recursivoRainha (r - 1);
+    }
+}
 
-        // esse bloco irá implementar o movimento da rainha, utilizando o "while" para simular o movimento da rainha oito vezes para a esquerda.
-        printf("*** RAINHA ***\n");
-        c = 1;
-        while (c <= 8) {
-            printf("Esquerda\n");
-            c++;
-        }
+void recursivoBispo (int b) {   //função recursiva criada para simular o movimento do bispo 5 vezes para cima e para direita, simultaneamente;
 
-        // esse bloco irá implementar o movimento do cavalo, utilizando o "While" e o "For" aninhados para simular o movimento do cavalo 2 casas para baixo e uma para esquerda.
-        printf("*** CAVALO ***\n");
-        for (j = 1; j < 2; j++)     // loop externo
-        {   
-            i = 1;
-            while (i <= 2)          // loop interno
-            {
-                printf("Baixo\n");  // exibição de saída do loop interno
-                i++;                // incremento loop interno
+    if (b > 0){
+        for (int i = 1; i <= 1 ; i++) {     //o loop externo (que simula o movimento na vertical) executará apenas uma vez e a execução do código seguirá para o loop mais interno (que simula o movimento na horizontal), e por sua vez também só executará uma vez, devido à condição adotada.
+            printf("Cima, ");
+
+            for (int j = 1; j <= 1; j++) {
+                printf("Direita\n");
             }
-        
-            printf("Esquerda\n");   // exibição de saída do loop externo
-        
         }
-            
-     return 0;
+    
+        recursivoBispo (b - 1);     //a recursividade simulará um loop, fazendo com que o código dentro dela seja repetido 5 vezes;
 
+    }   
+                   
+}
+
+int main (){ //função principal
+
+    int numTorre = 5, numRainha = 8, numBispo = 5, cavalo, i, j; //declaração de variáveis, todas do tipo inteiro
+
+    printf("*** TORRE ***\n");
+    recursivoTorre (numTorre); //"chamada" da função de recursividade, que foi escrita fora da função principal, para simular o movimento da torre.
+
+    printf("*** RAINHA *** \n");
+    recursivoRainha (numRainha); //"chamada" da função de recursividade, que foi escrita fora da função principal, para simular o movimento da rainha.
+
+    printf("*** BISPO *** \n");
+    recursivoBispo (numBispo); //"chamada" da função de recursividade, que foi escrita fora da função principal, para simular o movimento do bispo.
+
+    do  //utilizando funções aninhadas ('do-while' aninhado com o 'for'), foi possível simular o movimento do cavalo duas casas para cima e uma para a direita.
+    {
+        cavalo = 1;
+        printf("*** CAVALO *** \n");        
+        for (i = 1, j = 2; i <= 2 ; i++, j--)   //dentro desse loop (for) estão sendo usadas múltiplas variáveis ('i' e 'j'), preferi usar variáveis globais, mas também poderia ter utilizado variáveis locais, dentro do próprio loop (for).
+        {                                       // o que ocorre aqui é o seguinte: quando o loop for executado a primeira vez, com i = 1 e j = 2, imprimirá apenas a palavra "Cima".
+            printf("Cima \n");                  // na segunda execução do loop (for), com i = 2 e j = 1, imprimirá novamente a palavra "Cima", mas como j = 1, o laço parará (por conta do break). 
+            cavalo++;   
+            if (j == 1) break;                  //A execução do código então seguirá fora do loop (for) e imprimirá a palavra "Direita"; 
+        }
+
+        printf("Direita\n");
+
+    } while (cavalo <= 1);                      //Como a condição dentro do while não foi atendida, porque a variável "cavalo" foi incrementada e agora é igual a 2, o "do" não executará novamnete, e portanto, o programa se encerrará.
+    
+    return 0;
+    
 }
